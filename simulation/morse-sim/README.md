@@ -1,4 +1,4 @@
-# Morse Simulation
+# MORSE Simulation
 
 ## Installation
 
