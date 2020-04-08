@@ -9,16 +9,22 @@
     $ morse check
     ```
 
-2. Start simulation.
+2. Install dependencies for robot controller:
+
+    ```
+    $ pip3 install -r requirements.txt
+    ```
+
+3. Start simulation.
 
     ```
     $ morse run sim.py
     ```
 
-3. Start robot controller in a separate terminal.
+4. Start robot controller in a separate terminal.
 
     ```
-    $ python3 client.py
+    $ python3 cli.py
     ```
 
 [morse-install]: https://www.openrobots.org/morse/doc/stable/user/installation.html

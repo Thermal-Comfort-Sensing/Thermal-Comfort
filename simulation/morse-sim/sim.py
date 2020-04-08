@@ -1,56 +1,42 @@
-#! /usr/bin/env morseexec
+#!/usr/bin/env morseexec
 # pylint: disable=missing-module-docstring,missing-function-docstring,invalid-name
 
-""" Basic MORSE simulation scene for <morse-sim> environment
+import morse.builder as mb
 
-Feel free to edit this template as you like!
-"""
+# Human.
+human = mb.Human()
+human.translate(-0.50, 3.00, 0.00)
+human.rotate(0.00, 0.00, 3.14)
 
-from morse.builder import Morsy, MotionVW, Keyboard, Pose, Environment
+# Set human's temperature to be detected by robot's thermometer.
+human.properties(Temperature=100.00)
 
-# Add the MORSE mascott, MORSY.
-# Out-the-box available robots are listed here:
-# http://www.openrobots.org/morse/doc/stable/components_library.html
-#
-# 'morse add robot <name> morse-sim' can help you to build custom robots.
-robot = Morsy()
-
-# The list of the main methods to manipulate your components
-# is here: http://www.openrobots.org/morse/doc/stable/user/builder_overview.html
-robot.translate(1.0, 0.0, 0.0)
-robot.rotate(0.0, 0.0, 3.5)
-
-# Add a motion controller
-# Check here the other available actuators:
-# http://www.openrobots.org/morse/doc/stable/components_library.html#actuators
-#
-# 'morse add actuator <name> morse-sim' can help you with the creation of a custom
-# actuator.
-motion = MotionVW()
-robot.append(motion)
-
-# Add a keyboard controller to move the robot with arrow keys.
-keyboard = Keyboard()
-robot.append(keyboard)
-keyboard.properties(ControlType="Position")
-
-# Add a pose sensor that exports the current location and orientation
-# of the robot in the world frame
-# Check here the other available actuators:
-# http://www.openrobots.org/morse/doc/stable/components_library.html#sensors
-#
-# 'morse add sensor <name> morse-sim' can help you with the creation of a custom
-# sensor.
-pose = Pose()
-robot.append(pose)
-
-# To ease development and debugging, we add a socket interface to our robot.
-#
-# Check here: http://www.openrobots.org/morse/doc/stable/user/integration.html 
-# the other available interfaces (like ROS, YARP...)
+# Robot.
+robot = mb.Morsy()
+robot.translate(-3.50, 3.00, 0.00)
+robot.rotate(0.00, 0.00, 0.00)
 robot.add_default_interface("socket")
 
-# set 'fastmode' to True to switch to wireframe mode
-env = Environment("sandbox", fastmode=False)
-env.set_camera_location([-18.0, -6.7, 10.8])
-env.set_camera_rotation([1.09, 0, -1.14])
+# Keyboard controller to move the robot with arrow keys.
+keyboard = mb.Keyboard()
+keyboard.properties(ControlType="Position")
+robot.append(keyboard)
+
+# Robot's camera.
+camera = mb.VideoCamera()
+camera.translate(0.00, 0.00, 0.85)
+camera.rotate(0.00, 0.00, 0.00)
+camera.properties(cam_width=512, cam_height=512)
+robot.append(camera)
+
+# Robot's thermometer.
+thermometer = mb.Thermometer()
+thermometer.translate(0.00, 0.00, 0.00)
+thermometer.rotate(0.00, 0.00, 0.00)
+thermometer.properties(FireTag="Temperature", DefaultTemperature=0.00)
+robot.append(thermometer)
+
+# Environment.
+env = mb.Environment("sandbox", fastmode=False)
+env.set_camera_location([-18.00, -6.70, 10.80])
+env.set_camera_rotation([1.09, 0.00, -1.14])
