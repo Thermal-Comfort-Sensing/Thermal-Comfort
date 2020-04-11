@@ -15,16 +15,22 @@
     $ pip3 install -r requirements.txt
     ```
 
-3. Start simulation.
+3. Import simulation.
+
+   ```
+   $ morse import . thermalcomfort
+   ```
+
+4. Start simulation.
 
     ```
-    $ morse run sim.py
+    $ morse run thermalcomfort
     ```
 
-4. Start robot controller in a separate terminal.
+5. Start robot controller in a separate terminal.
 
     ```
-    $ python3 cli.py
+    $ python3 scripts/cli.py
     ```
 
 [morse-install]: https://www.openrobots.org/morse/doc/stable/user/installation.html

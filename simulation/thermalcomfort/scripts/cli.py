@@ -11,7 +11,7 @@ from PIL import Image
 def main():
     with pymorse.Morse() as simu:
         camera = simu.robot.camera
-        thermometer = simu.robot.thermometer
+        thermosensor = simu.robot.thermosensor
 
         print_help()
         while True:
@@ -30,7 +30,7 @@ def main():
             elif cmd == "cam":
                 camera_handler(camera.get())
             elif cmd == "therm":
-                thermometer_handler(thermometer.get())
+                thermometer_handler(thermosensor.get())
 
 
 def thermometer_handler(data):

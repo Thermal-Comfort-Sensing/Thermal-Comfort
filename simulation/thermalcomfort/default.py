@@ -2,6 +2,7 @@
 # pylint: disable=missing-module-docstring,missing-function-docstring,invalid-name
 
 import morse.builder as mb
+import thermalcomfort.builder as tb
 
 # Human.
 human = mb.Human()
@@ -9,7 +10,7 @@ human.translate(-0.50, 3.00, 0.00)
 human.rotate(0.00, 0.00, 3.14)
 
 # Set human's temperature to be detected by robot's thermometer.
-human.properties(Temperature=100.00)
+human.properties(temperature="head,100.00")
 
 # Robot.
 robot = mb.Morsy()
@@ -30,11 +31,10 @@ camera.properties(cam_width=512, cam_height=512)
 robot.append(camera)
 
 # Robot's thermometer.
-thermometer = mb.Thermometer()
-thermometer.translate(0.00, 0.00, 0.00)
-thermometer.rotate(0.00, 0.00, 0.00)
-thermometer.properties(FireTag="Temperature", DefaultTemperature=0.00)
-robot.append(thermometer)
+thermosensor = tb.ThermoSensor()
+thermosensor.translate(0.00, 0.00, 0.00)
+thermosensor.rotate(0.00, 0.00, 0.00)
+robot.append(thermosensor)
 
 # Environment.
 env = mb.Environment("sandbox", fastmode=False)
