@@ -7,9 +7,20 @@ import thermalcomfort.builder as tb
 human = mb.Human()
 human.translate(-0.50, 3.00, 0.00)
 human.rotate(0.00, 0.00, 3.14)
+human.add_default_interface("socket")
 
-# Set human's temperatures to be detected by robot's thermosensor.
-human.properties(temperatures="cheek,96.6|forehead,97.3|ear,84.4|neck,89.1|hand,81.7|arm,82.2")
+# Set human's forehead temperature.
+human.properties(temperature=97.3)
+
+# Set locations of human's body parts relative to forehead.
+human.properties(body_parts=\
+    "forehead:0.00,0.00,0.00"
+    "|cheek:0.00,0.04,-0.06"
+    "|ear:0.05,0.09,-0.06"
+    "|neck:0.03,0.00,-0.15"
+    "|hand:-0.10,0.30,-0.70"
+    "|foot:0.00,0.06,-1.40"
+)
 
 # Robot.
 robot = mb.Morsy()

@@ -9,9 +9,9 @@ from PIL import Image
 
 
 def main():
-    with pymorse.Morse() as simu:
-        camera = simu.robot.camera
-        thermosensor = simu.robot.thermosensor
+    with pymorse.Morse() as sim:
+        camera = sim.robot.camera
+        thermosensor = sim.robot.thermosensor
 
         print_help()
         while True:
@@ -27,23 +27,24 @@ def main():
                 print_help()
             elif cmd == "exit":
                 sys.exit(0)
-            elif cmd == "cam":
-                camera_handler(camera.get())
-            elif cmd == "therm":
-                thermosensor_handler(thermosensor.get())
+            elif cmd == "pic":
+                picture_handler(camera)
+            elif cmd == "temp":
+                temperature_handler(thermosensor)
             elif cmd != "":
                 print("Command \"{}\" not supported.".format(cmd))
 
 
-def thermosensor_handler(data):
-    pprint.PrettyPrinter(indent=2).pprint(data)
-
-
-def camera_handler(data):
+def picture_handler(camera):
+    data = camera.get()
     print("Picture taken. (Size: {}x{})".format(data["height"], data["width"]))
     raw = base64.b64decode(data["image"])
     img = Image.frombytes("RGBA", (data["width"], data["height"]), raw).convert("RGB")
     img.show()
+
+
+def temperature_handler(thermosensor):
+    pprint.PrettyPrinter(indent=2).pprint(thermosensor.get())
 
 
 def print_help():
@@ -51,8 +52,8 @@ def print_help():
         "\nCommands:\n\n"
         "  help\t show this help message\n"
         "  exit\t exit the program\n"
-        "  cam\t take a picture using robot's camera\n"
-        "  therm\t read data from robot's thermosensor\n"
+        "  pic\t take a picture using robot's camera\n"
+        "  temp\t get human's temperature data\n"
     )
 
 

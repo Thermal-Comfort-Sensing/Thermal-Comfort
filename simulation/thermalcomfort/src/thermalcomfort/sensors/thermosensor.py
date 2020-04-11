@@ -6,12 +6,12 @@ from morse.helpers.components import add_data, add_property
 
 
 class ThermoSensor(morse.core.sensor.Sensor):
-    _name = "ThermoSensor"
+    _PROP_TEMP = "temperature"
+    _PROP_BODY_PARTS = "body_parts"
+    _DELIMS = ["|", ":", ","]
+    _ALPHA = 0.15
 
-    add_property("_tag", "temperatures", "TemperaturesTag", "string", "")
-    add_property("_tag_delim_outer", "|", "TagOuterDelimiter", "string", "")
-    add_property("_tag_delim_inner", ",", "TagInnerDelimiter", "string", "")
-    add_property("_alpha", 0.2, "Alpha", "float", "")
+    _name = "ThermoSensor"
 
     add_data("temperatures", [], "list", "Measured temperatures")
 
@@ -24,19 +24,26 @@ class ThermoSensor(morse.core.sensor.Sensor):
         temperatures = []
         for obj in morse.core.blenderapi.scene().objects:
             try:
-                raw_temp = obj[self._tag]
-                dist, _, _ = self.bge_object.getVectTo(obj)
-                temperatures += self._build_temperatures(raw_temp, dist)
-            except KeyError:
-                pass
+                temperature = obj[ThermoSensor._PROP_TEMP]
+                body_parts = obj[ThermoSensor._PROP_BODY_PARTS]
+                temperatures.append({
+                    "name": obj.name,
+                    "temperatures": self._compute_body_temperatures(temperature, body_parts),
+                })
+            except KeyError as e:
+                logger.debug("Exception: %s", e)
         self.local_data["temperatures"] = temperatures
 
-    def _build_temperatures(self, raw_temp, dist):
+    def _compute_body_temperatures(self, temperature, body_parts):
         temperatures = []
-        for chunk in raw_temp.split(self._tag_delim_outer):
-            label, val = chunk.split(self._tag_delim_inner)
+        for chunk in body_parts.split(ThermoSensor._DELIMS[0]):
+            label, raw_coord = chunk.split(ThermoSensor._DELIMS[1])
+            x, y, z = raw_coord.split(ThermoSensor._DELIMS[2])
             temperatures.append({
                 "label": label,
-                "value": float(val) * math.exp(-self._alpha * dist)
+                "value": temperature * math.exp(-ThermoSensor._ALPHA * self._dist(x, y, z))
             })
         return temperatures
+
+    def _dist(self, x, y, z):
+        return float(x) ** 2 + float(y) ** 2 + float(z) ** 2
