@@ -1,0 +1,3 @@
+Thanks to LITIV @ Polytechnique Montreal (https://www.polymtl.ca/litiv/codes-et-bases-de-donnees)
+
+Bilodeau, G.-A., Torabi, A., St-Charles, P.-L., Riahi, D., Thermal-Visible Registration of Human Silhouettes: a Similarity Measure Performance Evaluation, Infrared Physics & Technology, Vol. 64, May 2014, pp. 79-86
