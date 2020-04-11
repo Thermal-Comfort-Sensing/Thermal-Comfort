@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-# pylint: disable=missing-module-docstring,missing-function-docstring,invalid-name
 
 import sys
 import base64
+import pprint
 
 import pymorse
 from PIL import Image
@@ -30,11 +30,13 @@ def main():
             elif cmd == "cam":
                 camera_handler(camera.get())
             elif cmd == "therm":
-                thermometer_handler(thermosensor.get())
+                thermosensor_handler(thermosensor.get())
+            elif cmd != "":
+                print("Command \"{}\" not supported.".format(cmd))
 
 
-def thermometer_handler(data):
-    print("Thermometer: {}".format(data))
+def thermosensor_handler(data):
+    pprint.PrettyPrinter(indent=2).pprint(data)
 
 
 def camera_handler(data):
@@ -50,7 +52,7 @@ def print_help():
         "  help\t show this help message\n"
         "  exit\t exit the program\n"
         "  cam\t take a picture using robot's camera\n"
-        "  therm\t read robot's thermometer value\n"
+        "  therm\t read data from robot's thermosensor\n"
     )
 
 

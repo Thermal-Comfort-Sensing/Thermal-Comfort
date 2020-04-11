@@ -1,5 +1,4 @@
 #!/usr/bin/env morseexec
-# pylint: disable=missing-module-docstring,missing-function-docstring,invalid-name
 
 import morse.builder as mb
 import thermalcomfort.builder as tb
@@ -9,8 +8,8 @@ human = mb.Human()
 human.translate(-0.50, 3.00, 0.00)
 human.rotate(0.00, 0.00, 3.14)
 
-# Set human's temperature to be detected by robot's thermometer.
-human.properties(temperature="head,100.00")
+# Set human's temperatures to be detected by robot's thermosensor.
+human.properties(temperatures="cheek,96.6|forehead,97.3|ear,84.4|neck,89.1|hand,81.7|arm,82.2")
 
 # Robot.
 robot = mb.Morsy()
@@ -30,7 +29,7 @@ camera.rotate(0.00, 0.00, 0.00)
 camera.properties(cam_width=512, cam_height=512)
 robot.append(camera)
 
-# Robot's thermometer.
+# Robot's thermosensor.
 thermosensor = tb.ThermoSensor()
 thermosensor.translate(0.00, 0.00, 0.00)
 thermosensor.rotate(0.00, 0.00, 0.00)

@@ -1,5 +1,3 @@
-# pylint: disable=missing-module-docstring,missing-function-docstring,invalid-name,missing-class-docstring
-
 from morse.builder.creator import SensorCreator
 from morse.builder.blenderobjects import Cylinder
 
