@@ -9,6 +9,8 @@
     $ morse check
     ```
 
+    `morse check` should pass with no errors.
+
 2. Install dependencies for robot controller:
 
     ```
